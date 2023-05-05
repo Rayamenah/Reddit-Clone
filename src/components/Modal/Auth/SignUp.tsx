@@ -1,10 +1,12 @@
-import { Input, Button, Flex, Text } from "@chakra-ui/react"
-import { useState } from "react"
-import { useSetRecoilState } from "recoil"
-import { authModalState } from "../../../atoms/authModalAtom"
-import { auth } from "../../../Firebase/clientApp"
-import { FIREBASE_ERRORS } from "../../../Firebase/errors"
+import { Button, Flex, Input, Text } from "@chakra-ui/react"
+import { User } from "firebase/auth"
+import { addDoc, collection } from "firebase/firestore"
+import { useEffect, useState } from "react"
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth"
+import { useSetRecoilState } from "recoil"
+import { auth, firestore } from "../../../Firebase/clientApp"
+import { FIREBASE_ERRORS } from "../../../Firebase/errors"
+import { authModalState } from "../../../atoms/authModalAtom"
 
 
 const SignUp = () => {
@@ -20,7 +22,7 @@ const SignUp = () => {
     //firebase hooks logic
     const [
         createUserWithEmailAndPassword,
-        user,
+        userCred,
         loading,
         userError
     ] = useCreateUserWithEmailAndPassword(auth)
@@ -40,6 +42,17 @@ const SignUp = () => {
             [event.target.name]: event.target.value
         }))
     }
+
+    //
+    const createUserDocument = async (user: User) => {
+        await addDoc(collection(firestore, "users"), JSON.parse(JSON.stringify(user)))
+    }
+
+    useEffect(() => {
+        if (userCred) {
+            createUserDocument(userCred.user)
+        }
+    }, [userCred])
 
     return (
         <form onSubmit={onSubmit}>
@@ -130,7 +143,7 @@ const SignUp = () => {
                     color='blue.500'
                     fontWeight={700}
                     cursor='pointer'
-                    onClick={() => setAuthModalState((prev) => ({ ...prev, view: 'login' }))}
+                    onClick={() => setAuthModalState((prev: any) => ({ ...prev, view: 'login' }))}
                 >
                     LOG IN
                 </Text>

@@ -44,7 +44,7 @@ const ResetPassword: React.FC = () => {
                             placeholder="email"
                             type="email"
                             mb={2}
-                            onChange={(event) => setEmail(event.target.value)}
+                            onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setEmail(event.target.value)}
                             fontSize="10pt"
                             _placeholder={{ color: "gray.500" }}
                             _hover={{
@@ -85,7 +85,7 @@ const ResetPassword: React.FC = () => {
             >
                 <Text
                     onClick={() =>
-                        setAuthModalState((prev) => ({
+                        setAuthModalState((prev: any) => ({
                             ...prev,
                             view: "login",
                         }))
@@ -96,7 +96,7 @@ const ResetPassword: React.FC = () => {
                 <Icon as={BsDot} />
                 <Text
                     onClick={() =>
-                        setAuthModalState((prev) => ({
+                        setAuthModalState((prev: any) => ({
                             ...prev,
                             view: "signup",
                         }))

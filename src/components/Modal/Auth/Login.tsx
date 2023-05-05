@@ -2,9 +2,9 @@ import { Button, Flex, Input, Text } from "@chakra-ui/react"
 import { useState } from "react"
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth"
 import { useSetRecoilState } from "recoil"
-import { authModalState } from "../../../atoms/authModalAtom"
 import { auth } from "../../../Firebase/clientApp"
 import { FIREBASE_ERRORS } from "../../../Firebase/errors"
+import { authModalState } from "../../../atoms/authModalAtom"
 
 const Login = () => {
     const setAuthModalState = useSetRecoilState(authModalState)
@@ -107,14 +107,14 @@ const Login = () => {
                     fontSize='9pt'
                     color='blue.500'
                     cursor='pointer'
-                    onClick={() => setAuthModalState((prev) => ({ ...prev, view: 'resetPassword' }))}
+                    onClick={() => setAuthModalState((prev: any) => ({ ...prev, view: 'resetPassword' }))}
                 >
                     Reset
                 </Text>
             </Flex>
             <Flex fontSize='9pt' justifyContent='center'>
                 <Text mr={1}>New Here ?</Text>
-                <Text color='blue.500' fontWeight={700} cursor='pointer' onClick={() => setAuthModalState((prev) => ({ ...prev, view: 'signup' }))}>SIGN UP</Text>
+                <Text color='blue.500' fontWeight={700} cursor='pointer' onClick={() => setAuthModalState((prev: any) => ({ ...prev, view: 'signup' }))}>SIGN UP</Text>
             </Flex>
         </form>
     )
