@@ -3,6 +3,10 @@ import { GetServerSidePropsContext } from "next"
 import safeJsonStringify from "safe-json-stringify"
 import { firestore } from "../../../Firebase/clientApp"
 import { Community } from "../../../atoms/communitiesAtom"
+import NotFound from "../../../components/Community/NotFound"
+import Header from "../../../components/Community/Header"
+import PageContent from "../../../components/Layout/PageContent"
+import CreatePostLink from "../../../components/Community/CreatePostLink"
 
 
 type CommunityPageProps = {
@@ -11,11 +15,21 @@ type CommunityPageProps = {
 const CommunityPage = ({ communityData }: CommunityPageProps) => {
     // console.log(communityData)
     if (!communityData) {
-        return <div> community does not exist </div>
+        return <NotFound />
     }
 
     return (
-        <div>welcome to r/{communityData.id}</div>
+        <>
+            <Header communityData={communityData} />
+            <PageContent>
+                <>
+                    <CreatePostLink />
+                </>
+                <>
+                    <div>rhs</div>
+                </>
+            </PageContent>
+        </>
     )
 }
 
