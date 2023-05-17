@@ -69,6 +69,7 @@ const useCommunityData = () => {
         // deleting the community snippet 
         try {
             const batch = writeBatch(firestore)
+            //delete the community from the "communitySnippet" field in db
             batch.delete(doc(firestore, `users/${user?.uid}/communitySnippets`, communityId))
             //updating the number of members on community object in community collection in db
             batch.update(doc(firestore, 'communities', communityId), {
@@ -105,7 +106,12 @@ const useCommunityData = () => {
     }
 
     useEffect(() => {
-        if (!user) return
+        if (!user) {
+            setCommunityStateValue((prev) => ({
+                ...prev,
+                mySnippets: []
+            }))
+        }
         getMySnippets();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])

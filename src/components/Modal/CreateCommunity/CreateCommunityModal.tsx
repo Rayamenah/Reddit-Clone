@@ -43,7 +43,7 @@ const CreateCommunityModal: React.FC<modalProps> = ({ open, handleClose }) => {
         try {
             //create community in firestore 
             const communityDocRef = doc(firestore, 'communities', communityName)
-            //runTransaction() is used to make sure that the community name is not taken by another user while the current user is creating the community and is used for communicating between collections in db
+            //runTransaction() is used here to make sure that the community name is not taken by another user while the current user is creating the community and is used for communicating between collections in db
             await runTransaction(firestore, async (transaction) => {
                 //check if community exists
                 const communityDoc = await transaction.get(communityDocRef)

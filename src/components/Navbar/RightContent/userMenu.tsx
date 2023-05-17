@@ -15,12 +15,10 @@ type UserMenuProps = {
     user?: User | null
 }
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
-    const resetCommunityState = useSetRecoilState(communityState)
     const setAuthModalState = useSetRecoilState(authModalState)
 
     const logOut = async () => {
         await signOut(auth)
-        resetCommunityState
         //clear community state
     }
 
