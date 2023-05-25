@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Icon, Image, Text } from "@chakra-ui/react"
-import { Community } from "../../atoms/communitiesAtom"
 import { FaReddit } from "react-icons/fa"
+import { Community } from "../../atoms/communitiesAtom"
 import useCommunityData from "../../hooks/useCommunityData"
 
 type HeaderProps = {

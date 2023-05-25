@@ -1,27 +1,25 @@
-import { Box, Button, Divider, Flex, Icon, Stack, Text, Image, Spinner } from "@chakra-ui/react"
+import { Box, Button, Divider, Flex, Icon, Image, Spinner, Stack, Text } from "@chakra-ui/react"
+import { doc, updateDoc } from "firebase/firestore"
+import { getDownloadURL, ref, uploadString } from "firebase/storage"
+import moment from "moment"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRef, useState } from "react"
+import { useAuthState } from "react-firebase-hooks/auth"
+import { FaReddit } from "react-icons/fa"
 import { HiOutlineDotsHorizontal } from "react-icons/hi"
 import { RiCakeLine } from "react-icons/ri"
-import { Community, communityState } from "../../atoms/communitiesAtom"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, firestore, storage } from "../../Firebase/clientApp"
-import { useRef, useState } from "react"
-import useSelectFile from "../../hooks/useSelectFile"
-import { FaReddit } from "react-icons/fa"
-import { getDownloadURL, ref, uploadString } from "firebase/storage"
-import { updateDoc, doc } from "firebase/firestore"
 import { useSetRecoilState } from "recoil"
-import moment from "moment"
+import { auth, firestore, storage } from "../../Firebase/clientApp"
+import { Community, communityState } from "../../atoms/communitiesAtom"
+import useSelectFile from "../../hooks/useSelectFile"
 
 type Props = {
     communityData: Community
 }
 const About = ({ communityData }: Props) => {
-    const router = useRouter()
     const [user] = useAuthState(auth)
     const selectedFileRef = useRef<HTMLInputElement>(null)
-    const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile()
+    const { selectedFile, onSelectFile } = useSelectFile()
     const [uploadingImage, setUploadingImage] = useState(false)
     const setCommunityStateValue = useSetRecoilState(communityState)
 
@@ -41,11 +39,12 @@ const About = ({ communityData }: Props) => {
                 currentCommunity: {
                     ...prev.currentCommunity,
                     imageURL: downloadURL
-                }
+                } as Community
             }))
         } catch (error) {
-
+            console.log('onUpdateImage error', error)
         }
+        setUploadingImage(false)
     }
     return (
         <Box position='sticky' top='14px' >

@@ -9,10 +9,10 @@ import { BsLink45Deg, BsMic } from "react-icons/bs"
 import { IoDocumentText, IoImageOutline } from "react-icons/io5"
 import { firestore, storage } from "../../Firebase/clientApp"
 import { Post } from "../../atoms/postsAtom"
+import useSelectFile from "../../hooks/useSelectFile"
 import ImageUpload from "./PostForm/ImageUpload"
 import TextInputs from "./PostForm/TextInputs"
 import TabItem from "./TabItem"
-import useSelectFile from "../../hooks/useSelectFile"
 
 const formTabs: tabItem[] = [
     {
