@@ -1,6 +1,6 @@
 
-import { Button, Flex, Image, Stack } from '@chakra-ui/react'
-import { useRef } from 'react'
+import { Button, Flex, Image, Stack } from '@chakra-ui/react';
+import { useRef } from 'react';
 
 type Props = {
     selectedFile?: string;

@@ -9,7 +9,6 @@ import { VscAccount } from "react-icons/vsc"
 import { useSetRecoilState } from "recoil"
 import { auth } from "../../../Firebase/clientApp"
 import { authModalState } from "../../../atoms/authModalAtom"
-import { communityState } from "../../../atoms/communitiesAtom"
 
 type UserMenuProps = {
     user?: User | null

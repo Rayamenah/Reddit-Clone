@@ -1,11 +1,12 @@
-import { Alert, AlertIcon, Flex, Icon, Image, Skeleton, Spinner, Stack, Text } from '@chakra-ui/react';
-import { useState } from 'react';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { BsChat } from 'react-icons/bs';
-import { IoArrowDownCircleOutline, IoArrowDownCircleSharp, IoArrowRedoOutline, IoArrowUpCircleOutline, IoArrowUpCircleSharp, IoBookmarkOutline } from 'react-icons/io5';
-import { Post } from '../../atoms/postsAtom';
+import { Alert, AlertIcon, Flex, Icon, Image, Link, Skeleton, Spinner, Stack, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { BsChat, BsDot } from 'react-icons/bs';
+import { FaReddit } from 'react-icons/fa';
+import { IoArrowDownCircleOutline, IoArrowDownCircleSharp, IoArrowRedoOutline, IoArrowUpCircleOutline, IoArrowUpCircleSharp, IoBookmarkOutline } from 'react-icons/io5';
+import { Post } from '../../atoms/postsAtom';
 
 type Props = {
     post: Post;
@@ -19,6 +20,7 @@ type Props = {
         communityId: string) => void;
     onDeletePost: (post: Post) => Promise<boolean>;
     onSelectPost?: (post: Post) => void
+    HomePage?: boolean
 }
 
 const PostItem = ({
@@ -27,7 +29,8 @@ const PostItem = ({
     userVoteValue,
     onVote,
     onDeletePost,
-    onSelectPost
+    onSelectPost,
+    HomePage
 }: Props) => {
     const [loadingImage, setLoadingImage] = useState(true)
     const [error, setError] = useState('')
@@ -47,7 +50,7 @@ const PostItem = ({
             if (!success) {
                 throw new Error('failed to delete post')
             }
-            console.log('post successfully deleted')
+
             if (singlePostPage) {
                 router.push(`/r/${post.communityId}`)
             }
@@ -102,6 +105,31 @@ const PostItem = ({
                         align='center'
                         fontSize='0pt'
                     >
+                        {HomePage && (
+                            <>
+                                {post.communityImageURL ? (
+                                    <Image
+                                        alt='community image'
+                                        src={post.communityImageURL}
+                                        borderRadius='full'
+                                        boxSize='10px'
+                                        mr={2}
+                                    />) : (
+                                    <Icon as={FaReddit} fontSize='10pt' mr={1} color='blue.500' />
+                                )}
+                                <Link href={`/r/${post.communityId}`}>
+                                    <Text
+                                        fontWeight={700}
+                                        _hover={{ textDecoration: 'underLine' }}
+                                        onClick={event => event.stopPropagation()}
+                                    >
+                                        {`r/${post.communityId}`}
+                                    </Text>
+
+                                </Link>
+                                <Icon as={BsDot} color='gray.500' fontSize={8} />
+                            </>
+                        )}
                         <Text>
                             Posted by u/{post.creatorDisplayName}{' '}
                             {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}

@@ -31,7 +31,6 @@ const Posts = ({ communityData }: Props) => {
 
             //enable indexing in firebase console 6:15:42
             const posts = postDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-            console.log(posts)
             setPostStateValue((prev: any) => ({
                 ...prev, posts: posts as Post[]
             }))
@@ -44,7 +43,7 @@ const Posts = ({ communityData }: Props) => {
 
     useEffect(() => {
         getPosts()
-    }, [])
+    }, [communityData])
     return (
         <>
             {loading ? (<PostLoader />) : (

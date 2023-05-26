@@ -1,11 +1,11 @@
 import { collection, doc, getDoc, getDocs, increment, writeBatch } from "firebase/firestore"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useRecoilState, useSetRecoilState } from "recoil"
 import { auth, firestore } from "../Firebase/clientApp"
 import { authModalState } from "../atoms/authModalAtom"
 import { Community, CommunitySnippet, communityState } from "../atoms/communitiesAtom"
-import { useRouter } from "next/router"
 
 const useCommunityData = () => {
     const router = useRouter()
@@ -41,7 +41,8 @@ const useCommunityData = () => {
 
             const newSnippet: CommunitySnippet = {
                 communityId: communityData.id,
-                imageURL: communityData.imageURL || ''
+                imageURL: communityData.imageURL || '',
+                isModerator: user?.uid === communityData.creatorId
             }
             //'transactions' are used for read and write purposes but for this situation
             //since we are only writing to the db batch is preferred to update the communitySnippet object on the db
@@ -95,9 +96,13 @@ const useCommunityData = () => {
         try {
             const snippetDocs = await getDocs(collection(firestore, `users/${user?.uid}/communitySnippets`))
             const snippets = snippetDocs.docs.map((doc) => ({ ...doc.data() }))
-            setCommunityStateValue(prev => ({ ...prev, mySnippets: snippets as CommunitySnippet[] }))
+            setCommunityStateValue(prev => ({
+                ...prev,
+                mySnippets: snippets as CommunitySnippet[],
+                snippetsFetched: true
+            }))
 
-            console.log('here are snippets', snippets)
+
 
         } catch (error: any) {
             console.log('getMySnippets error', error)
@@ -125,7 +130,8 @@ const useCommunityData = () => {
         if (!user) {
             setCommunityStateValue((prev) => ({
                 ...prev,
-                mySnippets: []
+                mySnippets: [],
+                snippetsFetched: false
             }))
         }
         getMySnippets();

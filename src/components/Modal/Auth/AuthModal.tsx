@@ -12,12 +12,7 @@ const AuthModal = () => {
     const [modalState, setModalState] = useRecoilState(authModalState)
     const [user, loading, error] = useAuthState(auth)
 
-    // const toggleView = (view: string) => {
-    //     setModalState({
-    //         ...modalState,
-    //         view: view as typeof modalState.view,
-    //     });
-    // };
+
 
     const handleClose = () => {
         setModalState((prev: any) => ({

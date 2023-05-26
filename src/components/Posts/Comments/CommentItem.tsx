@@ -2,7 +2,7 @@ import { Box, Flex, Icon, Spinner, Stack, Text } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
 import moment from "moment";
 import { FaReddit } from "react-icons/fa";
-import { IoArrowUpCircleOutline, IoArrowDownCircleOutline } from "react-icons/io5";
+import { IoArrowDownCircleOutline, IoArrowUpCircleOutline } from "react-icons/io5";
 
 export type Comment = {
     id: string;
@@ -11,7 +11,7 @@ export type Comment = {
     communityId: string;
     postId: string;
     postTitle: string;
-    text: string;
+    comment: string;
     createdAt: Timestamp
 }
 
@@ -35,7 +35,7 @@ const CommentItem = ({ comment, onDeleteComment, loadingDelete, userId }: Props)
                     </Text>
                     {loadingDelete && <Spinner size='sm' />}
                 </Stack>
-                <Text fontSize='10pt'>{comment.text}</Text>
+                <Text fontSize='10pt'>{comment.comment}</Text>
                 <Stack direction='row' align='center' cursor='pointer' color='gray.500'>
                     <Icon as={IoArrowUpCircleOutline} />
                     <Icon as={IoArrowDownCircleOutline} />

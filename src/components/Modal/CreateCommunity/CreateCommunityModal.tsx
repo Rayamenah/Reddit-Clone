@@ -1,27 +1,38 @@
 import { Box, Button, Checkbox, Divider, Flex, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text } from "@chakra-ui/react"
 import { doc, runTransaction, serverTimestamp } from "firebase/firestore"
+import { useRouter } from "next/router"
 import { useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs"
 import { HiLockClosed } from "react-icons/hi"
+import { useRecoilState } from "recoil"
 import { auth, firestore } from "../../../Firebase/clientApp"
+import { createCommunityMenuState } from "../../../atoms/createCommunityAtom"
+import useDirectory from "../../../hooks/useDirectory"
 
-type modalProps = {
-    open: boolean
-    handleClose: () => void
-}
-const CreateCommunityModal: React.FC<modalProps> = ({ open, handleClose }) => {
+// type modalProps = {
+//     open: boolean
+//     handleClose: () => void
+// }
+const CreateCommunityModal = () => {
+    const [modalState, setModalState] = useRecoilState(createCommunityMenuState)
     const [user] = useAuthState(auth)
     const [communityName, setCommunityName] = useState('')
     const [charsRemaining, setCharsRemaining] = useState(21)
     const [communityType, setCommunityType] = useState('public')
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+    const router = useRouter()
+    const { toggleMenuOpen } = useDirectory()
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.length > 21) return
         setCommunityName(event.target.value)
         setCharsRemaining(21 - event.target.value.length)
+    }
+
+    const handleClose = () => {
+        setModalState({ isOpen: false })
     }
 
     const onCommunityTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +79,9 @@ const CreateCommunityModal: React.FC<modalProps> = ({ open, handleClose }) => {
                     isModerator: true
                 })
             })
+            handleClose()
+            toggleMenuOpen()
+            router.push(`r/${communityName}`)
 
         } catch (error: any) {
             console.log('handleCreateCommunity error', error)
@@ -78,7 +92,7 @@ const CreateCommunityModal: React.FC<modalProps> = ({ open, handleClose }) => {
     return (
         <>
 
-            <Modal isOpen={open} onClose={handleClose} size='lg'>
+            <Modal isOpen={modalState.isOpen} onClose={handleClose} size='lg'>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader display='flex' flexDirection='column' fontSize={15} padding={3}>

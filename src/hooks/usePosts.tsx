@@ -1,5 +1,6 @@
 import { collection, deleteDoc, doc, getDocs, query, where, writeBatch } from 'firebase/firestore'
 import { deleteObject, ref } from 'firebase/storage'
+import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
@@ -7,7 +8,6 @@ import { auth, firestore, storage } from '../Firebase/clientApp'
 import { authModalState } from '../atoms/authModalAtom'
 import { communityState } from '../atoms/communitiesAtom'
 import { Post, PostVote, postState } from '../atoms/postsAtom'
-import { useRouter } from 'next/router'
 
 type Props = {}
 

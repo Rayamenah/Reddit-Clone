@@ -6,20 +6,25 @@ import { IoImageOutline } from "react-icons/io5"
 import { useSetRecoilState } from "recoil"
 import { auth } from "../../Firebase/clientApp"
 import { authModalState } from "../../atoms/authModalAtom"
+import useDirectory from "../../hooks/useDirectory"
 
 
 const CreatePostLink = () => {
     const router = useRouter()
     const [user] = useAuthState(auth)
     const setAuthModalState = useSetRecoilState(authModalState)
-
+    const { toggleMenuOpen } = useDirectory()
     const onClick = () => {
         if (!user) {
             setAuthModalState({ open: true, view: 'login' })
             return
         }
-
         const { communityId } = router.query
+
+        if (!communityId) {
+            toggleMenuOpen()
+        }
+
         router.push(`/r/${communityId}/submit`)
     }
     return (
@@ -33,6 +38,7 @@ const CreatePostLink = () => {
             borderColor='gray.300'
             p={2}
             mb={4}
+            onClick={() => { onClick() }}
         >
             <Icon as={FaReddit} fontSize={36} color='gray.300' mr={5} />
             <Input

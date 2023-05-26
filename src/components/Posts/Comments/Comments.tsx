@@ -37,7 +37,7 @@ const Comments = ({ user, selectedPost, communityId }: Props) => {
                 communityId,
                 postId: selectedPost?.id!,
                 postTitle: selectedPost?.title!,
-                text: commentText,
+                comment: commentText,
                 createdAt: serverTimestamp() as Timestamp
             }
 
