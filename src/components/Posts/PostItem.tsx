@@ -1,5 +1,6 @@
-import { Alert, AlertIcon, Flex, Icon, Image, Link, Skeleton, Spinner, Stack, Text } from '@chakra-ui/react';
+import { Alert, AlertIcon, Flex, Icon, Image, Skeleton, Spinner, Stack, Text } from '@chakra-ui/react';
 import moment from 'moment';
+import Link from "next/link";
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
@@ -117,6 +118,8 @@ const PostItem = ({
                                     />) : (
                                     <Icon as={FaReddit} fontSize='10pt' mr={1} color='blue.500' />
                                 )}
+
+                                <Icon as={BsDot} color='gray.500' fontSize={8} />
                                 <Link href={`/r/${post.communityId}`}>
                                     <Text
                                         fontWeight={700}
@@ -125,11 +128,10 @@ const PostItem = ({
                                     >
                                         {`r/${post.communityId}`}
                                     </Text>
-
                                 </Link>
-                                <Icon as={BsDot} color='gray.500' fontSize={8} />
                             </>
                         )}
+
                         <Text>
                             Posted by u/{post.creatorDisplayName}{' '}
                             {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}

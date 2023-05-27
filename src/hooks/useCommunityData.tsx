@@ -102,8 +102,6 @@ const useCommunityData = () => {
                 snippetsFetched: true
             }))
 
-
-
         } catch (error: any) {
             console.log('getMySnippets error', error)
             setError(error.message)

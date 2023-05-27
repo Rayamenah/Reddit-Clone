@@ -1,13 +1,12 @@
 import { ChevronDownIcon } from "@chakra-ui/icons"
 import { Flex, Icon, Menu, MenuButton, MenuList, Text, Image } from "@chakra-ui/react"
-import { TiHome } from 'react-icons/ti'
 import Communities from "./Communities"
 import useDirectory from "../../../hooks/useDirectory"
 
 const Directory = () => {
     const { directoryState, toggleMenuOpen } = useDirectory()
     return (
-        <Menu isOpen={directoryState.isOpen}>
+        <Menu isOpen={directoryState.isOpen} >
             <MenuButton
                 cursor='pointer'
                 padding='0px 6px'
